@@ -83,9 +83,24 @@ export class UserController {
 
   static async listAll(req: Request, res: Response) {
     const users = await userRepository.find({
-      select: ["id", "name", "email"],
+      select: ["id", "name", "email", "apartment"],
     });
 
     return res.send(users);
+  }
+
+  static async getOneById(req: Request, res: Response) {
+    const id = req.params.id;
+    let user: User;
+    try {
+      user = await userRepository.findOneOrFail({
+        where: { id: Number(id) },
+        select: ["id", "name", "email", "apartment"],
+      });
+    } catch (error) {
+      return res.status(404).send("User not found");
+    }
+
+    return res.status(201).send(user);
   }
 }
