@@ -3,6 +3,8 @@ import { User } from "../../entities/User";
 import bcrypt from "bcryptjs";
 import { validate } from "class-validator";
 import { userRepository } from "../../repositories/userRepository";
+import * as jwt from "jsonwebtoken"
+import config from "../../config/config"
 
 export class UserController {
   static async createUser(req: Request, res: Response) {
@@ -49,7 +51,7 @@ export class UserController {
   static async editUser(req: Request, res: Response) {
     const id = req.params.id;
 
-    const { email, apartment, name } = req.body;
+    const { name, email, apartment, password } = req.body;
     let user: User;
     try {
       user = await userRepository.findOneOrFail({ where: { id: Number(id) } });
@@ -66,6 +68,9 @@ export class UserController {
     if (apartment) {
       user.apartment = apartment;
     }
+    if (password) {
+      user.password = bcrypt.hashSync(password, 10);
+    }
 
     const errors = await validate(user);
     if (errors.length > 0) {
@@ -74,11 +79,12 @@ export class UserController {
 
     try {
       await userRepository.save(user);
+
     } catch (error) {
       return res.status(409).send("email already in use");
     }
 
-    return res.status(204).send();
+    return res.status(204).send()
   }
 
   static async listAll(req: Request, res: Response) {
@@ -103,4 +109,5 @@ export class UserController {
 
     return res.status(201).send(user);
   }
+  
 }

@@ -28,11 +28,11 @@ export class AuthController {
   }
 
   const token = jwt.sign(
-    {userId: user.id, username: user.name},
+    {id: user.id, name: user.name},
     config.jwtSecret,
     {expiresIn: "1h"}
 )
 
-  return res.send(token)
+  return res.json(token)
 }
 }
