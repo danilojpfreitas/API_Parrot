@@ -1,7 +1,8 @@
 import { Post } from './Post';
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, Unique, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity('users')
+@Unique(["email"])
 export class User {
     @PrimaryGeneratedColumn()
     id: number
