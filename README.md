@@ -9,7 +9,7 @@
 
 ---
 
-No Hands On 04 - Parrot, foi proposto a criação de uma API . . .
+No Hands On 04 - Parrot, foi proposto a criação de uma rede social a Parrot. A rede social Parrot é um sistema white label (ou seja, um sistema modelo criado por uma empresa que pode ser reutilizado por outras, apenas modificando informações como logo e marca) do qual condomínios podem contratar para incentivar a interação entre os moradores. A plataforma permite que os usuários façam publicações que ficam visíveis para toda comunidade.
 
 ---
 ## Como usar a API
