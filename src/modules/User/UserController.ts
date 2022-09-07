@@ -4,8 +4,8 @@ import bcrypt from "bcryptjs";
 import { validate } from "class-validator";
 import { userRepository } from "../../repositories/userRepository";
 
-export default class UserController {
-   async createUser(req: Request, res: Response) {
+export class UserController {
+   static async createUser(req: Request, res: Response) {
     console.log("entrou no metodo");
     
     const { name, email, password, apartment } = req.body;
@@ -29,7 +29,7 @@ export default class UserController {
     return res.status(201).json(user);
   }
 
-  async deleteUser(req: Request, res: Response) {
+  /* async deleteUser(req: Request, res: Response) {
 
-  }
+  } */
 }
