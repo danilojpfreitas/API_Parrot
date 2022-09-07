@@ -4,7 +4,7 @@
   <img src="./docs/logo.png" width="30%">
 </p>
 <p align="center">
-<a href="" alt="Run in Insomnia"></a>
+<a href="https://insomnia.rest/run/?label=Parrot&uri=https%3A%2F%2Fraw.githubusercontent.com%2Fdanilojpfreitas%2FHands_On_04_Typeorm%2Fmain%2Fdocs%2FInsomnia_2022-09-07.json" target="_blank"><img src="https://insomnia.rest/images/run.svg" alt="Run in Insomnia"></a>
 </p>
 
 ---
