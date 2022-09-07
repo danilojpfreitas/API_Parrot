@@ -1,15 +1,24 @@
-import { User } from './User';
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { User } from "./User";
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from "typeorm";
+import { Length, IsNotEmpty } from "class-validator";
 
-@Entity('posts')
+@Entity("posts")
 export class Post {
-    @PrimaryGeneratedColumn()
-    id: number
+  @PrimaryGeneratedColumn()
+  id: number;
 
-    @Column({ type: "text"})
-    content: string
+  @Column()
+  @Length(1, 300)
+  @IsNotEmpty()
+  content: string;
 
-    @ManyToOne(() => User, user => user.posts)
-    @JoinColumn({name: 'user_id'})
-    user_id: User
+  @ManyToOne(() => User, (user) => user.posts)
+  @JoinColumn({ name: "user_id" })
+  user_id: User;
 }

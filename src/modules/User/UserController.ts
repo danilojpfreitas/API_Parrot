@@ -3,8 +3,7 @@ import { User } from "../../entities/User";
 import bcrypt from "bcryptjs";
 import { validate } from "class-validator";
 import { userRepository } from "../../repositories/userRepository";
-import * as jwt from "jsonwebtoken"
-import config from "../../config/config"
+import { QueryFailedError, EntityNotFoundError } from "typeorm";
 
 export class UserController {
   static async createUser(req: Request, res: Response) {
@@ -25,7 +24,9 @@ export class UserController {
     try {
       await userRepository.save(user);
     } catch (error) {
-      return res.status(400).send(error);
+      if (error instanceof QueryFailedError)
+        return res.status(400).json(error.message);
+      return res.status(400).json(error);
     }
     return res.status(201).json(user);
   }
@@ -36,13 +37,17 @@ export class UserController {
     try {
       user = await userRepository.findOneOrFail({ where: { id: Number(id) } });
     } catch (error) {
-      return res.status(404).send("User not found");
+      if (error instanceof QueryFailedError)
+        return res.status(404).json(error.message);
+      return res.status(500).json(error);
     }
 
     try {
       userRepository.delete(id);
     } catch (error) {
-      return res.status(500).send("Server crashed");
+      if (error instanceof QueryFailedError)
+        return res.status(400).json(error.message);
+      return res.status(400).json(error);
     }
 
     return res.status(204).send();
@@ -56,7 +61,9 @@ export class UserController {
     try {
       user = await userRepository.findOneOrFail({ where: { id: Number(id) } });
     } catch (error) {
-      return res.status(404).send("User not found");
+      if (error instanceof QueryFailedError)
+        return res.status(404).json(error.message);
+      return res.status(500).json(error);
     }
 
     if (name) {
@@ -79,20 +86,27 @@ export class UserController {
 
     try {
       await userRepository.save(user);
-
     } catch (error) {
-      return res.status(409).send("email already in use");
+      if (error instanceof QueryFailedError)
+        return res.status(409).json(error.message);
+      return res.status(500).json(error);
     }
 
-    return res.status(204).send()
+    return res.status(204).send();
   }
 
   static async listAll(req: Request, res: Response) {
-    const users = await userRepository.find({
-      select: ["id", "name", "email", "apartment"],
-    });
-
-    return res.send(users);
+    let users: Array<User> = [];
+    try {
+      users = await userRepository.find({
+        select: ["id", "name", "email", "apartment"],
+      });
+    } catch (error) {
+      if (error instanceof QueryFailedError)
+        return res.status(404).json(error.message);
+      return res.status(500).json(error);
+    }
+    return res.status(201).send(users);
   }
 
   static async getOneById(req: Request, res: Response) {
@@ -104,10 +118,11 @@ export class UserController {
         select: ["id", "name", "email", "apartment"],
       });
     } catch (error) {
-      return res.status(404).send("User not found");
+      if (error instanceof EntityNotFoundError)
+        return res.status(404).json(error.message);
+      return res.status(500).json(error);
     }
 
     return res.status(201).send(user);
   }
-  
 }
