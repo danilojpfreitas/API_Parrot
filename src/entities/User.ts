@@ -1,24 +1,40 @@
-import { Post } from './Post';
-import { Column, Entity, Unique, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Post } from "./Post";
+import {
+  Column,
+  Entity,
+  Unique,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from "typeorm";
+import { Length, IsNotEmpty, IsInt, IsEmail, Min, Max } from "class-validator";
 
-@Entity('users')
+@Entity("users")
 @Unique(["email"])
 export class User {
-    @PrimaryGeneratedColumn()
-    id: number
+  @PrimaryGeneratedColumn()
+  id: number;
 
-    @Column("varchar", { length: 70 })
-    name: string
+  @Column()
+  @Length(2, 20)
+  @IsNotEmpty()
+  name: string;
 
-    @Column("varchar", { length: 70 })
-    email: string
+  @Column()
+  @IsEmail()
+  @IsNotEmpty()
+  email: string;
 
-    @Column({ type: "int" })
-    apartment: number
+  @Column()
+  @IsInt()
+  @IsNotEmpty()
+  @Min(0)
+  @Max(10000)
+  apartment: number;
 
-    @Column("varchar", { length: 120 })
-    password: string
+  @Column()
+  @IsNotEmpty()
+  password: string;
 
-    @OneToMany(() => Post, post => post.user_id)
-    posts: Post[]
+  @OneToMany(() => Post, (post) => post.user_id)
+  posts: Post[];
 }

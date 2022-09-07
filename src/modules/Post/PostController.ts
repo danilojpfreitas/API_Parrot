@@ -1,7 +1,5 @@
 import { userRepository } from './../../repositories/userRepository';
 import { Response, Request } from "express";
-import { Post } from "../../entities/Post";
-import bcrypt from "bcryptjs";
 import { validate } from "class-validator";
 import { postRepository } from "../../repositories/postRepository";
 
