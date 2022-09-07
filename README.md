@@ -1,7 +1,7 @@
-# Parrot Hands_On04
+# Parrot - Hands On 04
 
 <p align="center">
-  <img src="./docs/logo.png" width="50%">
+  <img src="./docs/logo.png" width="30%">
 </p>
 <p align="center">
 <a href="" alt="Run in Insomnia"></a>
@@ -9,10 +9,10 @@
 
 ---
 
-No projeto Hands-On-04, foi proposto a criação de uma API . . .
+No Hands On 04 - Parrot, foi proposto a criação de uma API . . .
 
 ---
-## Como usar a API:
+## Como usar a API
 1. Após clonar o repositório, executar o comando "npm install" ou "yarn install"
 2. Criar um arquivo .env e alterar credenciais do banco de dados
 3. Criar banco de dados sem tabelas - create database name-database
@@ -20,10 +20,10 @@ No projeto Hands-On-04, foi proposto a criação de uma API . . .
 5. Iniciar o banco de dados com "npm run dev"
   
 ---
-## Corpo das requisições: 
+## Corpo das requisições
 
-<ul> corpo do create user "{ "name": string, "email": string, "password": string, "apartment": int}"
-<ul> corpo do create post "{ "content": string }
+1. corpo do create user "{ "name": string, "email": string, "password": string, "apartment": int}"
+2. corpo do create post "{ "content": string }
 
 ---
 ## :page_with_curl: Documentação
