@@ -5,6 +5,4 @@ const routes = Router();
 
 routes.post("/login", AuthController.login);
 
-// routes.post("change-password", )
-
 export default routes;
