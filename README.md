@@ -14,9 +14,9 @@ No Hands On 04 - Parrot, foi proposto a criação de uma rede social a Parrot. A
 ---
 ## Como usar a API
 1. Após clonar o repositório, executar o comando "npm install" ou "yarn install"
-2. Criar um arquivo .env e alterar credenciais do banco de dados
-3. Criar banco de dados sem tabelas - create database name-database
-4. Após configurado, realizar as "migrations npm run migration:generate" e "npm run migration:run"
+2. Criar um arquivo ".env" e alterar credenciais do banco de dados
+3. Criar banco de dados sem tabelaa com o comando no mysql: "create database nomeDoDatabase"
+4. Após configurado, realizar as migrations com os comandos: "npm run migration:generate" e em seguida "npm run migration:run"
 5. Iniciar o banco de dados com "npm run dev"
   
 ---
