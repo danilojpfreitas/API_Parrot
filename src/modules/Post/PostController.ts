@@ -80,6 +80,7 @@ export class PostController {
         where: {
           id: parseInt(idUser),
         },
+        select: ["id", "name", "email", "apartment"],
         relations: {
           posts: true,
         },
