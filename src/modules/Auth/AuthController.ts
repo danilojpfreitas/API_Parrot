@@ -17,7 +17,7 @@ export class AuthController {
 
   let user: User
 
-    try {
+  try {
       user = await userRepository.findOneOrFail({where: {email}})
   } catch (error) {
       return res.status(401).send("Email not found!")
@@ -27,12 +27,14 @@ export class AuthController {
     return res.status(401).send("Wrong email or password")
   }
 
+  let userId = await userRepository.findOneOrFail({where: {email}})
+
   const token = jwt.sign(
     {id: user.id, name: user.name},
     config.jwtSecret,
     {expiresIn: "1h"}
 )
 
-  return res.json(token)
+  return res.json([token, userId.id])
 }
 }
