@@ -28,7 +28,7 @@ No Hands On 04 - Parrot, foi proposto a criação de uma rede social a Parrot. A
 ---
 ## :page_with_curl: Documentação
 
-Todas as informações da documentação da API podem ser vistas ao clicar em `Run in Insomnia` neste README  
+Todas as informações da documentação da API podem ser vistas ao clicar em Run in Insomnia neste README  
 
 ---
 ## :keyboard: Desenvolvedores participantes
