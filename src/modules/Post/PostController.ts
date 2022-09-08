@@ -1,7 +1,10 @@
+import { User } from "./../../entities/User";
 import { userRepository } from "./../../repositories/userRepository";
 import { Response, Request } from "express";
 import { validate } from "class-validator";
 import { postRepository } from "../../repositories/postRepository";
+import { EntityNotFoundError } from "typeorm";
+import { Post } from "../../entities/Post";
 
 export class PostController {
   /* static async createPost(req: Request, res: Response) {
@@ -25,46 +28,63 @@ export class PostController {
     const { content } = req.body;
     const { idUser } = req.params;
 
-    
+    let user: User;
+    try {
+      user = await userRepository.findOneOrFail({
+        where: { id: Number(idUser) },
+      });
+    } catch (error) {
+      if (error instanceof EntityNotFoundError)
+        return res.status(404).send("User not found");
+      return res.status(500).json(error);
+    }
+
+    const newPost = postRepository.create({
+      content,
+      user_id: user,
+    });
+    const errors = await validate(newPost);
+    if (errors.length > 0) {
+      return res.status(400).send(errors);
+    }
 
     try {
-      const user_id = await userRepository.findOneBy({ id: Number(idUser) });
-      if (!user_id) {
-        return res.status(404).json({ message: "User does not exist" });
-      }
-      const newPost = postRepository.create({
-        content,
-        user_id,
-      });
       await postRepository.save(newPost);
-      return res.status(201).json(newPost);
     } catch (error) {
-      console.log(error);
-      return res.status(500).json({ message: "Internal Server Error" });
+      return res.status(500).json(error);
     }
+    return res.status(201).json(newPost);
   }
 
-  static async getPostAll(req: Request, res: Response) {
+  static async getAllPosts(req: Request, res: Response) {
+    let allPosts: Array<Post> = [];
     try {
-      const allPost = await postRepository.find({
+      allPosts = await postRepository.find({
         relations: {
           user_id: true,
         },
       });
-
-      return res.send(allPost);
     } catch (error) {
       console.log(error);
-      return res.status(500).json({ message: "Internal Server Error" });
+      return res.status(500).send("Internal Server Error");
     }
+
+    return res.status(200).send(allPosts);
   }
 
   static async getPostbyUserId(req: Request, res: Response) {
     const { idUser } = req.params;
-
-    if (!idUser) {
-      return res.status(404).json({ message: "User does not exist" });
-    }
+    // estava refatorando os metodos mas esbarrei aqui porque não entendi essa função.
+    /* let user: User;
+    try {
+      user = await userRepository.findOneOrFail({
+        where: { id: Number(idUser) },
+      });
+    } catch (error) {
+      if (error instanceof EntityNotFoundError)
+        return res.status(404).send("User not found");
+      return res.status(500).json(error);
+    } */
 
     try {
       const allPostByIdUser = await userRepository.findOne({

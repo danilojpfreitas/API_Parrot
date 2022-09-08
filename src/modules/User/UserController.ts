@@ -25,7 +25,7 @@ export class UserController {
       await userRepository.save(user);
     } catch (error) {
       if (error instanceof QueryFailedError)
-        return res.status(400).json(error.message);
+        return res.status(409).send("Email already in use");
       return res.status(400).json(error);
     }
     return res.status(201).json(user);
@@ -37,8 +37,8 @@ export class UserController {
     try {
       user = await userRepository.findOneOrFail({ where: { id: Number(id) } });
     } catch (error) {
-      if (error instanceof QueryFailedError)
-        return res.status(404).json(error.message);
+      if (error instanceof EntityNotFoundError)
+        return res.status(404).send("User not found");
       return res.status(500).json(error);
     }
 
@@ -47,7 +47,7 @@ export class UserController {
     } catch (error) {
       if (error instanceof QueryFailedError)
         return res.status(400).json(error.message);
-      return res.status(400).json(error);
+      return res.status(500).json(error);
     }
 
     return res.status(204).send();
@@ -61,8 +61,8 @@ export class UserController {
     try {
       user = await userRepository.findOneOrFail({ where: { id: Number(id) } });
     } catch (error) {
-      if (error instanceof QueryFailedError)
-        return res.status(404).json(error.message);
+      if (error instanceof EntityNotFoundError)
+        return res.status(404).send("User not found");
       return res.status(500).json(error);
     }
 
@@ -88,7 +88,7 @@ export class UserController {
       await userRepository.save(user);
     } catch (error) {
       if (error instanceof QueryFailedError)
-        return res.status(409).json(error.message);
+        return res.status(409).send("Email already in use");
       return res.status(500).json(error);
     }
 
@@ -102,11 +102,11 @@ export class UserController {
         select: ["id", "name", "email", "apartment"],
       });
     } catch (error) {
-      if (error instanceof QueryFailedError)
-        return res.status(404).json(error.message);
+      if (error instanceof EntityNotFoundError)
+        return res.status(404).send("No users to show");
       return res.status(500).json(error);
     }
-    return res.status(201).send(users);
+    return res.status(200).send(users);
   }
 
   static async getOneById(req: Request, res: Response) {
@@ -119,10 +119,10 @@ export class UserController {
       });
     } catch (error) {
       if (error instanceof EntityNotFoundError)
-        return res.status(404).json(error.message);
+        return res.status(404).send("User not found");
       return res.status(500).json(error);
     }
 
-    return res.status(201).send(user);
+    return res.status(200).send(user);
   }
 }
