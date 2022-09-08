@@ -20,10 +20,10 @@ export class Post {
   @IsNotEmpty()
   content: string;
 
-  // @CreateDateColumn({
-  //   nullable: false
-  // })
-  // created_at: Date;
+  @CreateDateColumn({
+    nullable: false
+  })
+  created_at: Date;
 
   @UpdateDateColumn({
     nullable: false
