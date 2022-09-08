@@ -5,6 +5,8 @@ import {
   JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
+  CreateDateColumn,
+  UpdateDateColumn
 } from "typeorm";
 import { Length, IsNotEmpty } from "class-validator";
 
@@ -17,6 +19,16 @@ export class Post {
   @Length(1, 300)
   @IsNotEmpty()
   content: string;
+
+  // @CreateDateColumn({
+  //   nullable: false
+  // })
+  // created_at: Date;
+
+  @UpdateDateColumn({
+    nullable: false
+  })
+  updated_at: Date;
 
   @ManyToOne(() => User, (user) => user.posts)
   @JoinColumn({ name: "user_id" })

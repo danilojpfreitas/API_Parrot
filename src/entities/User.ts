@@ -5,6 +5,8 @@ import {
   Unique,
   OneToMany,
   PrimaryGeneratedColumn,
+  CreateDateColumn,
+  UpdateDateColumn
 } from "typeorm";
 import { Length, IsNotEmpty, IsInt, IsEmail, Min, Max } from "class-validator";
 
@@ -34,6 +36,16 @@ export class User {
   @Column()
   @IsNotEmpty()
   password: string;
+
+  @CreateDateColumn({
+    nullable: false
+  })
+  created_at: Date;
+
+  @UpdateDateColumn({
+    nullable: false
+  })
+  updated_at: Date;
 
   @OneToMany(() => Post, (post) => post.user_id)
   posts: Post[];

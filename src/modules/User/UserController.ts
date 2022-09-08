@@ -24,8 +24,8 @@ export class UserController {
     try {
       await userRepository.save(user);
     } catch (error) {
-      if (error instanceof QueryFailedError)
-        return res.status(409).send("Email already in use");
+      // if (error instanceof QueryFailedError)
+        // return res.status(409).send("Email already in use");
       return res.status(400).json(error);
     }
     return res.status(201).json(user);
