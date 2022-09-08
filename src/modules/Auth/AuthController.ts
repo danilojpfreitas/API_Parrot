@@ -35,6 +35,6 @@ export class AuthController {
     {expiresIn: "1h"}
 )
 
-  return res.json([token, userId.id])
+  return res.json({token: "token", "id": userId.id})
 }
 }
