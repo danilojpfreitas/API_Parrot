@@ -74,20 +74,9 @@ export class PostController {
 
   static async getPostbyUserId(req: Request, res: Response) {
     const { idUser } = req.params;
-    // estava refatorando os metodos mas esbarrei aqui porque não entendi essa função.
-    /* let user: User;
+    let allPostsByUser: User;
     try {
-      user = await userRepository.findOneOrFail({
-        where: { id: Number(idUser) },
-      });
-    } catch (error) {
-      if (error instanceof EntityNotFoundError)
-        return res.status(404).send("User not found");
-      return res.status(500).json(error);
-    } */
-
-    try {
-      const allPostByIdUser = await userRepository.findOne({
+      allPostsByUser = await userRepository.findOneOrFail({
         where: {
           id: parseInt(idUser),
         },
@@ -95,10 +84,12 @@ export class PostController {
           posts: true,
         },
       });
-
-      return res.send(allPostByIdUser);
     } catch (error) {
-      return res.status(500).json({ message: "Internal Server Error" });
+      if (error instanceof EntityNotFoundError)
+        return res.status(404).send("User not found");
+      return res.status(500).json(error);
     }
+
+    return res.send(allPostsByUser);
   }
 }

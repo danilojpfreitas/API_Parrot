@@ -3,7 +3,7 @@ import { User } from "../../entities/User";
 import bcrypt from "bcryptjs";
 import { userRepository } from "../../repositories/userRepository";
 import * as jwt from "jsonwebtoken"
-import config from "../../config/config"
+import config from "../../infra/config/config"
 
 export class AuthController {
   
