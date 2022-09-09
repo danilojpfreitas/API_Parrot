@@ -7,23 +7,6 @@ import { EntityNotFoundError } from "typeorm";
 import { Post } from "../../entities/Post";
 
 export class PostController {
-  /* static async createPost(req: Request, res: Response) {
-    const { content } = req.body;
-
-    const newPost = postRepository.create({ content });
-    const errors = await validate(newPost);
-    if (errors.length > 0) {
-      return res.status(400).send(errors);
-    }
-
-    try {
-      await postRepository.save(newPost);
-      return res.status(201).json(newPost);
-    } catch (error) {
-      return res.status(500).json({ message: "Internal Server Error" });
-    }
-  } */
-
   static async createPostbyIdUser(req: Request, res: Response) {
     const { content } = req.body;
     const { idUser } = req.params;
@@ -74,19 +57,20 @@ export class PostController {
 
   static async getPostbyUserId(req: Request, res: Response) {
     const { idUser } = req.params;
-    let allPostsByUser: User;
+    let user: User;
     try {
-      allPostsByUser = await userRepository.findOneOrFail({
-        where: {
-          id: parseInt(idUser),
-        },
-        relations: {
-          posts: true,
-        },
+      user = await userRepository.findOneOrFail({
+        where: { id: Number(idUser) },
       });
     } catch (error) {
       if (error instanceof EntityNotFoundError)
         return res.status(404).send("User not found");
+      return res.status(500).json(error);
+    }
+    let allPostsByUser: Array<Post>;
+    try {
+      allPostsByUser = await postRepository.find({ where: { user_id: {id: Number(idUser)}} });
+    } catch (error) {
       return res.status(500).json(error);
     }
 
